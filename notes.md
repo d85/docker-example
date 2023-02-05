@@ -10,7 +10,7 @@ Images are made up from several `layers`
 | parent image |
 
 ```Dockerfile
-FROM node:18-alpine
+FROM node:16-alpine
 
 # in image
 WORKDIR /app
@@ -121,3 +121,14 @@ Starts and runs an `existing container`
 ```sh
 docker start myapp_c2
 ```
+
+# Code changes
+
+Without volumes - if we make a change to the code, we need to rebuild the image.
+
+# Layer caching
+
+If we `build an Image`, docker `caches the layers`.
+
+If we then `build another Image` which has the same initial layers as the first images. `Docker will pull those from the cache.`
+

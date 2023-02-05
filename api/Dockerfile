@@ -1,13 +1,15 @@
-FROM node:18-alpine
+FROM node:16-alpine
 
 # in image
 WORKDIR /app
 
+COPY package.json .
+
+RUN npm install
+
 # first '.' is src relative to docker file
 # second '.' is desition relative to workdir
 COPY . .
-
-RUN npm install
 
 # port exposed by container
 # relevant if spinner up containers via docker desktop
