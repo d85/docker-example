@@ -55,3 +55,69 @@ In the following - the port mapping is only shown as we included the `EXPOSE 400
 
 ![title](screenshots/run-options.png)
 
+# Docker commands
+
+List images
+
+```sh
+docker images
+```
+
+Run, specifying a `container name`
+
+```sh
+docker run --name myapp_c1 myapp
+```
+
+This isn't enough. If we try to hit `localhost:4000` it is unreachable.
+
+We need to map the host port to the container port.
+
+But we first need to stop the container.
+
+# Show running containers
+
+```sh
+docker ps
+```
+
+Output
+```
+CONTAINER ID   IMAGE     COMMAND                  CREATED         STATUS         PORTS      NAMES
+28a30c3963fa   myapp     "docker-entrypoint.s…"   2 minutes ago   Up 2 minutes   4000/tcp   myapp_c1
+```
+
+To stop the container, we provide either `the container id` or the `container name`
+
+```sh
+docker stop myapp_c1
+```
+
+Let's run it again, but this time we map a port on our computer to a port on the container
+
+```sh
+# -p is for publish
+# port number on the left is for the host
+# port number on the right is for the container
+
+# -d will run in detached mode
+docker run --name myapp_c2 -p 4000:4000 -d myapp
+```
+
+Now we can access it again via `localhost:4000`, and also the terminal is not blocked.
+
+# Show all containers including stopped ones
+
+```sh
+docker ps -a
+```
+
+## docker run
+Creates and runs a `new container`
+
+## docker start
+Starts and runs an `existing container`
+
+```sh
+docker start myapp_c2
+```
