@@ -48,3 +48,10 @@ node_modules
 
 *.md
 ```
+
+## Images > Run
+
+In the following - the port mapping is only shown as we included the `EXPOSE 4000` line in our Dockerfile
+
+![title](screenshots/run-options.png)
+
