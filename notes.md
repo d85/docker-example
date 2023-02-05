@@ -1,6 +1,6 @@
 # Docker
 
-Images are made up from several 'layers'
+Images are made up from several `layers`
 
 | Image        |
 | :---         |
@@ -35,4 +35,16 @@ CMD ["node", "app.js"]
 # -t tagname
 # '.' is relative path to Dockerfile from command line current dir
 docker build -t myapp .
+```
+
+We don't want to copy over the `node_modules` folder if there is one
+
+Create a `.dockerignore` file
+
+.dockerignore
+
+```dockerignore
+node_modules
+
+*.md
 ```
