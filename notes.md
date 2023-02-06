@@ -187,3 +187,83 @@ docker build -t myapp:v1 .
 ```sh
 docker run --name myapp_c -p 4000:4000 myapp:v1
 ```
+
+## Starting an existing container
+
+```sh
+docker start myapp_c
+```
+
+By default, `docker start` starts and existing container in `detached` mode
+
+For non-detached do this:
+
+```sh
+docker start -i myapp_c
+```
+
+# Volumes
+
+Without volumes - if we make code changes, we need to rebuild the image - and then run a container based off the new image.
+
+Volumes are a feature of docker that allow us to specify `folders` on our `host` computer that can be `made available` to `running containers`
+
+We can map those folders on our host computer to specific folders inside the container, so that if something changed in the folders on the host computer, that change would also be reflected in the folders we mapped to in the container.
+
+For example - we could map our entire project folder - the `api` folder to the `app` folder in our container - which is where are the source files are located `in the container`.
+
+So if we have a container running this application and we use a `volume` to map the `api directory` to the `app directory` in the container.
+
+So this is a way we can make changes to the project and preview those changes without having to rebuild the image all the time.
+
+One important note is: `the image does not change`. Volumes just gives a way to map directories between the host computer and the container - the image that the container is running, doesn't change at all.
+
+# Use nodemon to listen for file changes
+
+```dockerfile
+FROM node:16-alpine
+
+RUN npm install -g nodemon
+
+# in image
+WORKDIR /app
+
+COPY package.json .
+
+RUN npm install
+
+# first '.' is src relative to docker file
+# second '.' is desition relative to workdir
+COPY . .
+
+# port exposed by container
+# relevant if spinner up containers via docker desktop
+# docker desktop can use this for port mappings
+EXPOSE 4000
+
+CMD ["npm", "run", "dev"]
+```
+
+And in the `package.json`
+
+```json
+  ...
+  "scripts": {
+    "dev": "nodemon -L app.js"
+  },
+  ...
+```
+
+The `-L` argument in the command `nodemon -L app.js` is short for `legacy-watch.` It tells nodemon to use the older, less efficient file watching method for starting the application. The `-L` flag is used to help resolve compatibility issues with certain systems or older versions of nodemon.
+
+`nodemon` it typically used only for development and not for use in `production`.
+
+```sh
+docker build -t myapp:nodemon .
+```
+
+```sh
+docker run --name myapp_c_nodemon -p 4000:4000 --rm myapp:nodemon
+```
+
+The `--rm` will remove the container once we stop it later on.

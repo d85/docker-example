@@ -1,5 +1,7 @@
 FROM node:16-alpine
 
+RUN npm install -g nodemon
+
 # in image
 WORKDIR /app
 
@@ -16,4 +18,4 @@ COPY . .
 # docker desktop can use this for port mappings
 EXPOSE 4000
 
-CMD ["node", "app.js"]
+CMD ["npm", "run", "dev"]
