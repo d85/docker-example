@@ -267,3 +267,27 @@ docker run --name myapp_c_nodemon -p 4000:4000 --rm myapp:nodemon
 ```
 
 The `--rm` will remove the container once we stop it later on.
+
+# Mapping Volumes / Getting Live Changes
+
+```sh
+docker run --name myapp_c_nodemon -p 4000:4000 --rm -v /home/dan/Desktop/docker-example/api:/app myapp:nodemon
+```
+
+## Potential problem
+
+If we delete the `node_modules` folder on the `host`, it would also now be deleted in the container as well. This would cause a problem because the app needs the dependencies in the `node_modules` folder to work.
+
+We need a way to retain the mapping between the `/api` folder on the host computer and the `/app` folder in the container, but to prevent changes to the `node_modules` folder on the host being reflected in the container.
+
+The way we can do this is by adding another `volume` - called `an anonymous volume`.
+
+The `anonymous_volume` will map the `container's node_modules` folder to somewhere else, that is managed by docker.
+
+The docker run command becomes:
+
+```sh
+docker run --name myapp_c_nodemon -p 4000:4000 --rm -v /home/dan/Desktop/docker-example/api:/app -v /app/node_modules myapp:nodemon
+```
+
+The `/app/node_modules` volume mapping `overrides that specific part of the previous mapping` because `it is more specific`.
