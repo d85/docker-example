@@ -291,3 +291,26 @@ docker run --name myapp_c_nodemon -p 4000:4000 --rm -v /home/dan/Desktop/docker-
 ```
 
 The `/app/node_modules` volume mapping `overrides that specific part of the previous mapping` because `it is more specific`.
+
+# Docker Compose
+
+Docker Compose gives us a way to make a single docker-compose file which contains all the container conguration of our projects.
+
+This file will configure all the different containers that we want to run, that are part of the same project. E.g. The database, the front-end and the back-end.
+
+So then all we need to do is run one command to have docker-compose create all of our images, and then run them all so we get containers for each one.
+
+We create a `docker-compose.yaml` at the `outside of our api folder`
+
+```yaml
+version: "3.8"
+services:
+  api:
+    build: ./api
+    container_name: api_c
+    ports:
+      - '4000:4000'
+    volumes:
+      - ./api:/app
+      - ./app/node_modules
+```
