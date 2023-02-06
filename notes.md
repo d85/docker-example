@@ -122,7 +122,7 @@ Starts and runs an `existing container`
 docker start myapp_c2
 ```
 
-# Code changes
+## Code changes
 
 Without volumes - if we make a change to the code, we need to rebuild the image.
 
@@ -132,3 +132,58 @@ If we `build an Image`, docker `caches the layers`.
 
 If we then `build another Image` which has the same initial layers as the first images. `Docker will pull those from the cache.`
 
+# Managing Images and Containers
+
+Show images
+
+```sh
+docker images
+```
+
+```sh
+docker image rm myapp4
+```
+
+The images won't be removed if there is a container `In use`
+
+Removal can be forced with
+
+```sh
+docker image rm myapp5 -f
+```
+
+The above doesn't remove running instance(s) of the container if present
+
+The other option is to delete the container first, and then delete the image
+
+## Remove container
+
+```sh
+docker container rm myapp_c2
+```
+
+## Prune
+
+
+
+```sh
+docker system prune -a
+
+# WARNING! This will remove:
+#   - all stopped containers
+#   - all networks not used by at least one container
+#   - all images without at least one container associated to them
+#   - all build cache
+```
+
+## Build image with tag
+
+```sh
+docker build -t myapp:v1 .
+```
+
+## Run tagged version
+
+```sh
+docker run --name myapp_c -p 4000:4000 myapp:v1
+```
