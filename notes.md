@@ -388,3 +388,32 @@ services:
 ```
 
 Setting `stdin_open: true` and `tty: true` starts the container in `interactive mode` which is needed for react, as we don't want the container to automatically close.
+
+# Publishing to Docker Hub
+
+`https://hub.docker.com/`
+
+Create a new repository in docker hub
+
+Giving it a name like `myapi` will result in something like
+
+```
+<username>/myapi
+```
+## Build the image
+
+```sh
+docker build -t <username>/myapi
+```
+
+## Login
+
+```sh
+docker login
+```
+
+## Push the image to docker hub
+
+```sh
+docker push <username>/myapi
+```
