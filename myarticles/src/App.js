@@ -4,7 +4,7 @@ import './App.css';
 function App() {
   const [articles, setArticles] = useState([])
   useEffect(() => {
-    fetch('https://jsonplaceholder.typicode.com/posts')
+    fetch('http://localhost:4000')
       .then(res => res.json())
       .then(data => setArticles(data))
   }, [])

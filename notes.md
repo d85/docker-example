@@ -338,3 +338,53 @@ docker-compose down --rmi all -v
 ```
 
 This removes all images created by docker-compose as well as the volumes
+
+Adding the react project to the `docker-compose.yaml`
+
+# Add a React project
+
+## React project Dockerfile
+
+```dockerfile
+FROM node:16-alpine
+
+WORKDIR /app
+
+COPY package.json .
+
+RUN npm install
+
+COPY . .
+
+EXPOSE 3000
+# required for docker desktop port mapping
+
+CMD ["npm", "start"]
+```
+
+## Updated docker-compose file
+
+```yaml
+version: "3.8"
+services:
+  api:
+    build: ./api
+    container_name: api_c
+    ports:
+      - '4000:4000'
+    volumes:
+      - ./api:/app
+      - ./app/node_modules
+  myarticles:
+    build: ./myarticles
+    container_name: myarticles_c
+    ports:
+      - '3000:3000'
+    volumes:
+      - ./myarticles:/app
+      - ./app/node_modules
+    stdin_open: true
+    tty: true
+```
+
+Setting `stdin_open: true` and `tty: true` starts the container in `interactive mode` which is needed for react, as we don't want the container to automatically close.
