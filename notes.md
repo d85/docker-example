@@ -314,3 +314,27 @@ services:
       - ./api:/app
       - ./app/node_modules
 ```
+
+We can then run 
+
+```sh
+docker-compose up
+```
+
+Any extra service or project that we have in the `docker-example` directory that requires an image and a container, we'd add that service to the same `docker-compose` file - and we'd specify all the same kinds of properties for that service as well.
+
+Running docker compose `both builds the image, and runs the container`.
+
+Stop with
+
+```sh
+docker-compose down
+```
+
+The image and volumes will still remain. To delete them can do:
+
+```sh
+docker-compose down --rmi all -v
+```
+
+This removes all images created by docker-compose as well as the volumes
